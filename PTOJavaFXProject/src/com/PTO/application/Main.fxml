@@ -2,15 +2,16 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PTO.application.MainController">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
    </padding>
@@ -32,13 +33,13 @@
       </Pane>
       <TableView fx:id="routesTable" editable="true" fixedCellSize="1.0" layoutX="10.0" layoutY="219.0" prefHeight="667.0" prefWidth="849.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Номер маршруту" />
-          <TableColumn prefWidth="75.0" text="Тип транспорту" />
-            <TableColumn prefWidth="75.0" text="Кількість зупинок" />
-            <TableColumn prefWidth="75.0" text="Маршрут" />
-            <TableColumn prefWidth="75.0" text="Статус маршруту" />
-            <TableColumn prefWidth="75.0" text="Початок маршруту" />
-            <TableColumn prefWidth="75.0" text="Кінцева зупинка" />
+          <TableColumn fx:id="routeNumber" prefWidth="75.0" text="Номер маршруту" />
+          <TableColumn fx:id="transportType" prefWidth="75.0" text="Тип транспорту" />
+            <TableColumn fx:id="amountOfStops" prefWidth="75.0" text="Кількість зупинок" />
+            <TableColumn fx:id="route" prefWidth="75.0" text="Маршрут" />
+            <TableColumn fx:id="routeStatus" prefWidth="75.0" text="Статус маршруту" />
+            <TableColumn fx:id="firstStop" prefWidth="75.0" text="Початок маршруту" />
+            <TableColumn fx:id="lastStop" prefWidth="75.0" text="Кінцева зупинка" />
         </columns>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -70,14 +71,14 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Pane>
-      <Pane layoutX="867.0" layoutY="419.0" prefHeight="200.0" prefWidth="259.0" AnchorPane.topAnchor="419.0">
+      <Pane layoutX="867.0" layoutY="439.0" prefHeight="94.0" prefWidth="564.0" AnchorPane.topAnchor="429.0">
          <children>
-            <Button fx:id="routeEditBtn" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="245.0" text="Відредагувати маршрут">
+            <Button fx:id="routeEditBtn" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="259.0" text="Відредагувати маршрут">
                <font>
                   <Font name="Tahoma" size="18.0" />
                </font>
             </Button>
-            <Button fx:id="changeRouteStatusBtn" layoutX="8.0" layoutY="116.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="245.0" text="Змінити статус маршруту">
+            <Button fx:id="changeRouteStatusBtn" layoutX="284.0" layoutY="14.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="259.0" text="Змінити статус маршруту">
                <font>
                   <Font name="Tahoma" size="18.0" />
                </font>
@@ -102,8 +103,7 @@
                   <Insets left="10.0" />
                </padding>
             </Label>
-            <ComboBox layoutX="6.0" layoutY="73.0" prefHeight="25.0" prefWidth="200.0" />
-            <ComboBox layoutX="6.0" layoutY="109.0" prefHeight="25.0" prefWidth="200.0" />
+            <ChoiceBox fx:id="criteriaBox" layoutX="6.0" layoutY="73.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
             <Button fx:id="srchBtn" layoutX="6.0" layoutY="151.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="94.0" text="Пошук">
                <font>
                   <Font name="Tahoma" size="14.0" />
@@ -114,10 +114,12 @@
                   <Font name="Tahoma" size="14.0" />
                </font>
             </Button>
+            <ChoiceBox fx:id="rtSrchField" layoutX="6.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Pane>
+      <WebView fx:id="routeWebView" layoutX="867.0" layoutY="534.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="564.0" />
    </children>
 </AnchorPane>
