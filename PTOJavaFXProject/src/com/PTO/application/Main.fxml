@@ -120,6 +120,6 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Pane>
-      <WebView fx:id="routeWebView" layoutX="867.0" layoutY="534.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="564.0" />
+      <WebView fx:id="routeWebView" layoutX="867.0" layoutY="533.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="564.0" />
    </children>
 </AnchorPane>

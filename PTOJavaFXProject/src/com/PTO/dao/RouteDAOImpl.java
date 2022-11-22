@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.PTO.domain.Route;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import com.PTO.ConnectionFactory;
 
 public class RouteDAOImpl implements RouteDAO {
@@ -29,13 +33,13 @@ public class RouteDAOImpl implements RouteDAO {
 		}
 
 	@Override
-	public List<Route> getAllRoutes() {
+	public ObservableList<Route> getAllRoutes() {
 		try (Connection connection = ConnectionFactory.getConnection();
 	        	 Statement stmt = connection.createStatement();
 		         ResultSet rs = stmt.executeQuery("SELECT * FROM routes");
 	        		)
 	        	{ 
-	          	 List<Route> routes = new ArrayList<Route>();
+				 ObservableList<Route> routes = FXCollections.observableArrayList();
 		         while(rs.next()){
 	                   Route route = extractRouteFromResultSet(rs);
 	                   routes.add(route);
@@ -48,13 +52,13 @@ public class RouteDAOImpl implements RouteDAO {
 	}
 
 	@Override
-	public List<Route> getRoutesByType(String type) {
+	public ObservableList<Route> getRoutesByType(String type) {
 		try (Connection connection = ConnectionFactory.getConnection();
 	        	 Statement stmt = connection.createStatement();
 		         ResultSet rs = stmt.executeQuery("SELECT * FROM routes WHERE transportType="+"'"+type+"'");
 	        		)
 	        	{ 
-	          	 List<Route> routes = new ArrayList<Route>();
+				 ObservableList<Route> routes = FXCollections.observableArrayList();
 		         while(rs.next()){
 	                   Route route = extractRouteFromResultSet(rs);
 	                   routes.add(route);
@@ -67,13 +71,13 @@ public class RouteDAOImpl implements RouteDAO {
 	}
 
 	@Override
-	public List<Route> getRoutesByID(String ID) {
+	public ObservableList<Route> getRoutesByID(String ID) {
 		try (Connection connection = ConnectionFactory.getConnection();
 	        	 Statement stmt = connection.createStatement();
 		         ResultSet rs = stmt.executeQuery("SELECT * FROM routes WHERE routeNumber="+"'"+ID+"'");
 	        		)
 	        	{ 
-	          	 List<Route> routes = new ArrayList<Route>();
+				 ObservableList<Route> routes = FXCollections.observableArrayList();
 		         while(rs.next()){
 	                   Route route = extractRouteFromResultSet(rs);
 	                   routes.add(route);
@@ -86,13 +90,13 @@ public class RouteDAOImpl implements RouteDAO {
 	}
 	
 	@Override
-	public List<Route> getRoutesByStatus(String status) {
+	public ObservableList<Route> getRoutesByStatus(String status) {
 		try (Connection connection = ConnectionFactory.getConnection();
 	        	 Statement stmt = connection.createStatement();
 		         ResultSet rs = stmt.executeQuery("SELECT * FROM routes WHERE routeStatus="+"'"+status+"'");
 	        		)
 	        	{ 
-	          	 List<Route> routes = new ArrayList<Route>();
+				 ObservableList<Route> routes = FXCollections.observableArrayList();
 		         while(rs.next()){
 	                   Route route = extractRouteFromResultSet(rs);
 	                   routes.add(route);

@@ -1,7 +1,6 @@
 package com.PTO.application;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -12,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebEngine;
@@ -50,13 +48,13 @@ public class MainController implements Initializable{
 	private TableView<Route> routesTable;
 	
 	@FXML
-	private TableColumn<Route, String> routeNumber, transportType, firstStop, lastStop;
+	private TableColumn<Route, String> routeNumber, transportType, routeStatus, firstStop, lastStop;
 	@FXML
 	private TableColumn<Route, Integer> amountOfStops;
 	@FXML
 	private TableColumn<Route, List<Integer>> route;
 	
-	ObservableList<Route> tableData = FXCollections.observableArrayList();
+	ObservableList<Route> tableData = FXCollections.observableArrayList(routeDAO.getAllRoutes());
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -75,13 +73,13 @@ public class MainController implements Initializable{
 		rtSrchField.setValue(rtSrchField.getItems().get(0));
 		
 		//Populating the Routes Table
-		tableData = routeDAO.getAllRoutes();
-		routeNumber.setCellValueFactory(new PropertyValueFactory<>("routeNumber"));
-		transportType.setCellValueFactory(new PropertyValueFactory<>("transportType"));
-		amountOfStops.setCellValueFactory(new PropertyValueFactory<>("amountOfStops"));
-		route.setCellValueFactory(new PropertyValueFactory<>("route"));
-		firstStop.setCellValueFactory(new PropertyValueFactory<>("firstStop"));
-		lastStop.setCellValueFactory(new PropertyValueFactory<>("lastStop"));
+		routeNumber.setCellValueFactory(new PropertyValueFactory<>("RouteNumber"));
+		transportType.setCellValueFactory(new PropertyValueFactory<>("TransportType"));
+		amountOfStops.setCellValueFactory(new PropertyValueFactory<>("AmountOfStops"));
+		route.setCellValueFactory(new PropertyValueFactory<>("Route"));
+		routeStatus.setCellValueFactory(new PropertyValueFactory<>("RouteStatus"));
+		firstStop.setCellValueFactory(new PropertyValueFactory<>("FirstStop"));
+		lastStop.setCellValueFactory(new PropertyValueFactory<>("LastStop"));
 		routesTable.setItems(tableData);
 	}
 	

@@ -58,15 +58,6 @@ public class Route {
 	public void setRoute(List<Integer> route) {
 		this.route = route;
 	}
-	
-	public void extendRoute(int stopID) {
-		this.route.add(this.route.get(route.size()-1));
-		this.route.set(route.size()-2, stopID);
-	}
-	
-	public void removeRouteStop(int stopID) {
-		this.route.remove(stopID);
-	}
 
 	public String getFirstStop() {
 		return firstStop;
@@ -98,6 +89,15 @@ public class Route {
 
 	public void setAmountOfActiveTransport(int amountOfActiveTransport) {
 		this.amountOfActiveTransport = amountOfActiveTransport;
+	}
+	
+	public void extendRoute(int stopID) {
+		this.route.add(this.route.get(route.size()-1));
+		this.route.set(route.size()-2, stopID);
+	}
+	
+	public void removeRouteStop(int stopID) {
+		this.route.remove(stopID);
 	}
 
 	public String routeToDatabaseFormat(){
