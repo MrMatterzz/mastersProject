@@ -2,12 +2,7 @@ package com.PTO.domain;
 
 import java.util.List;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
-public class Route {
+public class Route2 {
 	
 	private String routeNumber;
 	private String transportType;
@@ -18,11 +13,11 @@ public class Route {
 	private String lastStop;
 	private int amountOfActiveTransport;
 	
-	public Route() {
+	public Route2() {
 		super();
 	}
 	
-	public Route(String routeNumber, String transportType, int amountOfStops, List<Integer> route, String firstStop, String lastStop) {
+	public Route2(String routeNumber, String transportType, int amountOfStops, List<Integer> route, String firstStop, String lastStop) {
 		this.routeNumber = routeNumber;
 		this.transportType = transportType;
 		this.amountOfStops = amountOfStops;
@@ -39,10 +34,6 @@ public class Route {
 	public void setRouteNumber(String routeNumber) {
 		this.routeNumber = routeNumber;
 	}
-	
-	public StringProperty routeNumberProperty() {
-		return new SimpleStringProperty(this.getRouteNumber());
-	}
 
 	public String getTransportType() {
 		return transportType;
@@ -50,10 +41,6 @@ public class Route {
 
 	public void setTransportType(String transportType) {
 		this.transportType = transportType;
-	}
-	
-	public StringProperty transportTypeProperty() {
-		return new SimpleStringProperty(this.getTransportType());
 	}
 
 	public int getAmountOfStops() {
@@ -63,10 +50,6 @@ public class Route {
 	public void setAmountOfStops(int amountOfStops) {
 		this.amountOfStops = amountOfStops;
 	}
-	
-	public IntegerProperty amountOfStopsProperty() {
-		return new SimpleIntegerProperty(this.getAmountOfStops());
-	}
 
 	public List<Integer> getRoute() {
 		return route;
@@ -75,11 +58,6 @@ public class Route {
 	public void setRoute(List<Integer> route) {
 		this.route = route;
 	}
-	
-	public StringProperty routeProperty() {
-		//System.out.println(this.getRoute().toString());
-		return new SimpleStringProperty(this.getRoute().toString());
-	}
 
 	public String getFirstStop() {
 		return firstStop;
@@ -87,10 +65,6 @@ public class Route {
 
 	public void setFirstStop(String firstStop) {
 		this.firstStop = firstStop;
-	}
-	
-	public StringProperty firstStopProperty() {
-		return new SimpleStringProperty(this.getFirstStop());
 	}
 
 	public String getLastStop() {
@@ -101,20 +75,12 @@ public class Route {
 		this.lastStop = lastStop;
 	}
 	
-	public StringProperty lastStopProperty() {
-		return new SimpleStringProperty(this.getLastStop());
-	}
-	
 	public String getRouteStatus() {
 		return routeStatus;
 	}
 
 	public void setRouteStatus(String routeStatus) {
 		this.routeStatus = routeStatus;
-	}
-	
-	public StringProperty routeStatusProperty() {
-		return new SimpleStringProperty(this.getRouteStatus());
 	}
 
 	public int getAmountOfActiveTransport() {
@@ -123,10 +89,6 @@ public class Route {
 
 	public void setAmountOfActiveTransport(int amountOfActiveTransport) {
 		this.amountOfActiveTransport = amountOfActiveTransport;
-	}
-	
-	public IntegerProperty amountOfActiveTransport() {
-		return new SimpleIntegerProperty(this.getAmountOfActiveTransport());
 	}
 	
 	public void extendRoute(int stopID) {

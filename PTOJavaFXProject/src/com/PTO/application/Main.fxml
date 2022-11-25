@@ -31,15 +31,15 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Pane>
-      <TableView fx:id="routesTable" editable="true" fixedCellSize="1.0" layoutX="10.0" layoutY="219.0" prefHeight="667.0" prefWidth="849.0">
+      <TableView id="routesTable" fx:id="routesTable" editable="true" layoutX="10.0" layoutY="219.0" prefHeight="667.0" prefWidth="849.0">
         <columns>
-          <TableColumn fx:id="routeNumber" prefWidth="75.0" text="Номер маршруту" />
-          <TableColumn fx:id="transportType" prefWidth="75.0" text="Тип транспорту" />
-            <TableColumn fx:id="amountOfStops" prefWidth="75.0" text="Кількість зупинок" />
-            <TableColumn fx:id="route" prefWidth="75.0" text="Маршрут" />
-            <TableColumn fx:id="routeStatus" prefWidth="75.0" text="Статус маршруту" />
-            <TableColumn fx:id="firstStop" prefWidth="75.0" text="Початок маршруту" />
-            <TableColumn fx:id="lastStop" prefWidth="75.0" text="Кінцева зупинка" />
+          <TableColumn id="routeNumber" fx:id="routeNumber" prefWidth="75.0" text="Номер маршруту" />
+          <TableColumn id="transportType" fx:id="transportType" prefWidth="75.0" text="Тип транспорту" />
+            <TableColumn id="amountOfStops" fx:id="amountOfStops" prefWidth="75.0" text="Кількість зупинок" />
+            <TableColumn id="route" fx:id="route" prefWidth="75.0" text="Маршрут" />
+            <TableColumn id="routeStatus" fx:id="routeStatus" prefWidth="75.0" text="Статус маршруту" />
+            <TableColumn id="firstStop" fx:id="firstStop" prefWidth="75.0" text="Початок маршруту" />
+            <TableColumn id="lastStop" fx:id="lastStop" prefWidth="75.0" text="Кінцева зупинка" />
         </columns>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -50,7 +50,7 @@
       </TableView>
       <Pane layoutX="867.0" layoutY="219.0" prefHeight="200.0" prefWidth="259.0">
          <children>
-            <Button fx:id="detailsBtn" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="245.0" text="Подивитися деталі">
+            <Button fx:id="detailsBtn" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" onAction="#initTable" prefHeight="70.0" prefWidth="245.0" text="Подивитися деталі">
                <font>
                   <Font name="Tahoma" size="18.0" />
                </font>

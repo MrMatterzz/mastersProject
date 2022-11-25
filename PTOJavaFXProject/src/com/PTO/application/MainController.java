@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebEngine;
@@ -52,7 +53,7 @@ public class MainController implements Initializable{
 	@FXML
 	private TableColumn<Route, Integer> amountOfStops;
 	@FXML
-	private TableColumn<Route, List<Integer>> route;
+	private TableColumn<Route, String> route;
 	
 	ObservableList<Route> tableData = FXCollections.observableArrayList(routeDAO.getAllRoutes());
 
@@ -72,15 +73,7 @@ public class MainController implements Initializable{
 		rtSrchField.getItems().addAll(routeNumbers);
 		rtSrchField.setValue(rtSrchField.getItems().get(0));
 		
-		//Populating the Routes Table
-		routeNumber.setCellValueFactory(new PropertyValueFactory<>("RouteNumber"));
-		transportType.setCellValueFactory(new PropertyValueFactory<>("TransportType"));
-		amountOfStops.setCellValueFactory(new PropertyValueFactory<>("AmountOfStops"));
-		route.setCellValueFactory(new PropertyValueFactory<>("Route"));
-		routeStatus.setCellValueFactory(new PropertyValueFactory<>("RouteStatus"));
-		firstStop.setCellValueFactory(new PropertyValueFactory<>("FirstStop"));
-		lastStop.setCellValueFactory(new PropertyValueFactory<>("LastStop"));
-		routesTable.setItems(tableData);
+		initTable();
 	}
 	
 	//Choice box manipulation method. Repopulates the rtSrchField based on the current selected value in criteriaBox.
@@ -117,6 +110,20 @@ public class MainController implements Initializable{
 			}
 			break;
 		}
+	}
+	
+	//Initializing and Populating the Routes Table
+	public void initTable() {
+		
+		routeNumber.setCellValueFactory(data->data.getValue().routeNumberProperty());
+		transportType.setCellValueFactory(data->data.getValue().transportTypeProperty());
+		amountOfStops.setCellValueFactory(data->data.getValue().amountOfStopsProperty().asObject());
+		route.setCellValueFactory(data->data.getValue().routeProperty());
+		routeStatus.setCellValueFactory(data->data.getValue().routeStatusProperty());
+		firstStop.setCellValueFactory(data->data.getValue().firstStopProperty());
+		lastStop.setCellValueFactory(data->data.getValue().lastStopProperty());
+		routesTable.getItems().setAll(tableData);
+		
 	}
 	
 	//WebView Control Methods
