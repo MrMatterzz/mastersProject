@@ -26,6 +26,46 @@
                   <Insets top="5.0" />
                </padding>
             </Label>
+            <Label alignment="CENTER" layoutX="181.0" layoutY="86.0" prefHeight="30.0" prefWidth="280.0" text="Кількість активних маршрутів">
+               <font>
+                  <Font name="Tahoma" size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="461.0" layoutY="88.0" prefWidth="280.0" text="Кількість активних автобусів">
+               <font>
+                  <Font name="Tahoma" size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="741.0" layoutY="86.0" prefWidth="290.0" text="Кількість активних тролейбусів">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="1031.0" layoutY="86.0" prefWidth="280.0" text="Кількість активних трамваїв">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="activeRoutesCounter" alignment="CENTER" layoutX="291.0" layoutY="127.0" prefWidth="60.0" text="15">
+               <font>
+                  <Font name="Tahoma" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="activeBusCounter" alignment="CENTER" layoutX="571.0" layoutY="127.0" prefWidth="60.0" text="15">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="activeTrBusCounter" alignment="CENTER" layoutX="856.0" layoutY="127.0" prefWidth="60.0" text="15">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="activeTramCounter" alignment="CENTER" layoutX="1148.0" layoutY="127.0" prefWidth="60.0" text="15">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

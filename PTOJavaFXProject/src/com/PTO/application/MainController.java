@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebEngine;
@@ -59,12 +60,16 @@ public class MainController implements Initializable{
 	private TableColumn<Route, String> route;
 	//Initializing observable list for table to display
 	ObservableList<Route> tableData = routeDAO.getAllRoutes();
+	
+	//Injecting counter Labels
+	@FXML
+	private Label activeRoutesCounter, activeBusCounter, activeTrBusCounter, activeTramCounter;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		engine = routeWebView.getEngine();
-		homepage = "https://www.google.com/maps/place/%D0%9A%D0%B8%D1%97%D0%B2,+%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D0%B0,+02000/@50.4021702,30.3926086,11z/data=!3m1!4b1!4m5!3m4!1s0x40d4cf4ee15a4505:0x764931d2170146fe!8m2!3d50.4501!4d30.5234";
+		homepage = "https://www.google.com.ua/maps/place/%D0%9A%D0%B8%D1%97%D0%B2,+%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D0%B0,+02000/@50.4021702,30.3926086,11z/data=!3m1!4b1!4m5!3m4!1s0x40d4cf4ee15a4505:0x764931d2170146fe!8m2!3d50.4501!4d30.5234";
 		engine.load(homepage);
 		
 		//Populating Criteria and Search Field boxes
@@ -77,6 +82,10 @@ public class MainController implements Initializable{
 		rtSrchField.setValue(rtSrchField.getItems().get(0));
 		
 		initTable();
+		activeRoutesCounter.setText(""+routeDAO.getRoutesByStatus("Активний").size());
+		activeBusCounter.setText(""+(int) Math.floor(Math.random()*(60-40+1)+40));
+		activeTrBusCounter.setText(""+(int) Math.floor(Math.random()*(60-40+1)+40));
+		activeTramCounter.setText(""+(int) Math.floor(Math.random()*(60-40+1)+40));
 	}
 	
 	//Choice box manipulation method. Repopulates the rtSrchField based on the current selected value in criteriaBox.
@@ -190,16 +199,6 @@ public class MainController implements Initializable{
 	
 	public void refreshPage() {
 		engine.reload();
-	}
-	
-	public void zoomIn() {
-		webZoom+=0.25;
-		routeWebView.setZoom(webZoom);
-	}
-	
-	public void zoomOut() {
-		webZoom-=0.25;
-		routeWebView.setZoom(webZoom);
 	}
 	
 	public void changeRouteStatus() {
