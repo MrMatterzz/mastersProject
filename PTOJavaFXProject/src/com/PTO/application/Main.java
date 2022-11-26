@@ -40,7 +40,7 @@ public void logout(Stage stage) {
 		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Logout");
-		alert.setHeaderText("You are about to loguot");
+		alert.setHeaderText("You are about to logout");
 		alert.setContentText("Are you sure you want to quit");
 		
 		if(alert.showAndWait().get() == ButtonType.OK) {

@@ -4,16 +4,15 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
@@ -25,13 +24,16 @@ import com.PTO.dao.TransportDAO;
 import com.PTO.dao.TransportDAOImpl;
 import com.PTO.domain.Route;
 import com.PTO.domain.RouteStop;
+import com.PTO.domain.Transport;
 
 public class MainController implements Initializable{
 	
+	//Initializing the Route objects for proper interactions;
 	private RouteDAO routeDAO = new RouteDAOImpl();
 	private RouteStopDAO routeStopDAO = new RouteStopDAOImpl();
 	private TransportDAO transportDAO = new TransportDAOImpl();
 	
+	//Injecting the webView for map display
 	@FXML
 	private WebView routeWebView;
 	
@@ -40,29 +42,30 @@ public class MainController implements Initializable{
 	
 	private double webZoom = 1.00;
 	
+	//Injecting teh ChoiceBox for criteria search
 	@FXML
 	private ChoiceBox<String> criteriaBox, rtSrchField;
 	
 	private String criteriaVals[] = {"Номер маршруту", "Тип маршруту", "Номер транспорту", "Назва зупинки"};
 	
+	//Imjecting table and columns
 	@FXML
 	private TableView<Route> routesTable;
-	
 	@FXML
 	private TableColumn<Route, String> routeNumber, transportType, routeStatus, firstStop, lastStop;
 	@FXML
 	private TableColumn<Route, Integer> amountOfStops;
 	@FXML
 	private TableColumn<Route, String> route;
-	
-	ObservableList<Route> tableData = FXCollections.observableArrayList(routeDAO.getAllRoutes());
+	//Initializing observable list for table to display
+	ObservableList<Route> tableData = routeDAO.getAllRoutes();
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		engine = routeWebView.getEngine();
 		homepage = "https://www.google.com/maps/place/%D0%9A%D0%B8%D1%97%D0%B2,+%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D0%B0,+02000/@50.4021702,30.3926086,11z/data=!3m1!4b1!4m5!3m4!1s0x40d4cf4ee15a4505:0x764931d2170146fe!8m2!3d50.4501!4d30.5234";
-		loadPage(homepage);
+		engine.load(homepage);
 		
 		//Populating Criteria and Search Field boxes
 		criteriaBox.getItems().addAll(criteriaVals);
@@ -122,13 +125,67 @@ public class MainController implements Initializable{
 		routeStatus.setCellValueFactory(data->data.getValue().routeStatusProperty());
 		firstStop.setCellValueFactory(data->data.getValue().firstStopProperty());
 		lastStop.setCellValueFactory(data->data.getValue().lastStopProperty());
-		routesTable.getItems().setAll(tableData);
+		routesTable.setItems(tableData);
 		
 	}
 	
+	public void updateTableData(ActionEvent event) {
+		
+		String criteria = criteriaBox.getValue();
+		
+		switch(criteria) {
+		
+			case ("Номер маршруту"):
+				tableData = routeDAO.getRoutesByID(rtSrchField.getValue());
+				routesTable.setItems(tableData);
+				break;
+			
+			case ("Тип маршруту"):
+				tableData = routeDAO.getRoutesByType(rtSrchField.getValue());
+				routesTable.setItems(tableData);
+				break;
+			
+			case("Номер транспорту"):
+				Transport transport = transportDAO.getTransportByID(Integer.parseInt(rtSrchField.getValue()));
+				tableData.clear();
+				tableData.add(routeDAO.getRoutebyIDandType(transport.getAssignedRoute(), transport.getTransportType()));
+				routesTable.setItems(tableData);
+				break;
+			
+			case("Назва зупинки"):
+				String routeStop[] = rtSrchField.getValue().split(" ");
+				int stopID = Integer.parseInt(routeStop[0]);
+				ObservableList<Route> routesForCheck = routeDAO.getAllRoutes();
+				tableData.clear();
+				for (Route route : routesForCheck) {
+					if (route.getRoute().contains(stopID)) {
+						tableData.add(route);
+					}
+				}
+				routesTable.setItems(tableData);
+				break;
+			default:
+				resetTableData();
+				break;
+		}
+		
+	}
+	//Resets table data to display all routes and drop the search criteria
+	public void resetTableData() {
+		tableData = routeDAO.getAllRoutes();
+		routesTable.setItems(tableData);
+	}
+	
 	//WebView Control Methods
-	public void loadPage(String page) {
-		engine.load(page);
+	public void loadPage(ActionEvent event) {
+		if(routesTable.getSelectionModel().getSelectedItem()!=null) {
+			String routeMapPage = routesTable.getSelectionModel().getSelectedItem().toRouteQuerry();
+			engine.load(routeMapPage);
+		}
+		else {
+			noTableItemSelectedAlert();
+		}
+		
 	}
 	
 	public void refreshPage() {
@@ -143,5 +200,28 @@ public class MainController implements Initializable{
 	public void zoomOut() {
 		webZoom-=0.25;
 		routeWebView.setZoom(webZoom);
+	}
+	
+	public void changeRouteStatus() {
+		if(routesTable.getSelectionModel().getSelectedItem()!=null) {
+			String status;
+			if(routesTable.getSelectionModel().getSelectedItem().getRouteStatus().equals("Активний")) {
+				status = "Неактивний";
+			} else {
+				status = "Активний";
+			}
+			routesTable.getSelectionModel().getSelectedItem().setRouteStatus(status);
+			routeDAO.updateRoute(routesTable.getSelectionModel().getSelectedItem());
+			routesTable.refresh();
+			
+		} else noTableItemSelectedAlert();
+	}
+	
+	public void noTableItemSelectedAlert() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Route Selection Error");
+		alert.setHeaderText("No route is chosen for display!");
+		alert.setContentText("Please chose a route in the table and repeat the operation");
+		alert.show();
 	}
 }

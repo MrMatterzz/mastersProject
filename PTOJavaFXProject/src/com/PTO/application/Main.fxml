@@ -58,7 +58,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </opaqueInsets>
             </Button>
-            <Button fx:id="mapViewBtn" layoutX="8.0" layoutY="116.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="245.0" text="Відкрити на мапі">
+            <Button fx:id="mapViewBtn" layoutX="8.0" layoutY="116.0" mnemonicParsing="false" onAction="#loadPage" prefHeight="70.0" prefWidth="245.0" text="Відкрити на мапі">
                <font>
                   <Font name="Tahoma" size="18.0" />
                </font>
@@ -78,7 +78,7 @@
                   <Font name="Tahoma" size="18.0" />
                </font>
             </Button>
-            <Button fx:id="changeRouteStatusBtn" layoutX="284.0" layoutY="14.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="259.0" text="Змінити статус маршруту">
+            <Button fx:id="changeRouteStatusBtn" layoutX="284.0" layoutY="14.0" mnemonicParsing="false" onAction="#changeRouteStatus" prefHeight="70.0" prefWidth="259.0" text="Змінити статус маршруту">
                <font>
                   <Font name="Tahoma" size="18.0" />
                </font>
@@ -104,12 +104,12 @@
                </padding>
             </Label>
             <ChoiceBox fx:id="criteriaBox" layoutX="6.0" layoutY="73.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" />
-            <Button fx:id="srchBtn" layoutX="6.0" layoutY="151.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="94.0" text="Пошук">
+            <Button fx:id="srchBtn" layoutX="6.0" layoutY="151.0" mnemonicParsing="false" onAction="#updateTableData" prefHeight="35.0" prefWidth="94.0" text="Пошук">
                <font>
                   <Font name="Tahoma" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="cnclBtn" layoutX="110.0" layoutY="151.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="94.0" text="Відміна">
+            <Button fx:id="cnclBtn" layoutX="110.0" layoutY="151.0" mnemonicParsing="false" onAction="#resetTableData" prefHeight="35.0" prefWidth="94.0" text="Відміна">
                <font>
                   <Font name="Tahoma" size="14.0" />
                </font>
