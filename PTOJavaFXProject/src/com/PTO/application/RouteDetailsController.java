@@ -1,6 +1,7 @@
 package com.PTO.application;
 
 import java.net.URL;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -28,7 +29,6 @@ import javafx.stage.Stage;
 
 public class RouteDetailsController implements Initializable{
 	
-	private RouteDAO routeDAO = new RouteDAOImpl();
 	private RouteStopDAO routeStopDAO = new RouteStopDAOImpl();
 	
 	//Injecting the table and rows for the route
@@ -53,18 +53,18 @@ public class RouteDetailsController implements Initializable{
 	@FXML
 	private WebView stopWebView;
 	private WebEngine engine;
-	private String homepage;
 	
 	@FXML
-	private Label activeTransportCounter, reserveTransportCounter;
+	private Label activeTransportCounter, reserveTransportCounter, intervalLbl;
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		engine = stopWebView.getEngine();
-		homepage = "https://www.google.com.ua/maps/place/%D0%9A%D0%B8%D1%97%D0%B2,+%D0%A3%D0%BA%D1%80%D0%B0%D1%97%D0%BD%D0%B0,+02000/@50.4021702,30.3926086,11z/data=!3m1!4b1!4m5!3m4!1s0x40d4cf4ee15a4505:0x764931d2170146fe!8m2!3d50.4501!4d30.5234";
-		engine.load(homepage);
-		
+		int x = (int) Math.floor(Math.random()*(10-2+1)+2);
+		activeTransportCounter.setText(""+x);
+		reserveTransportCounter.setText(""+(x+3));
+		intervalLbl.setText("10хв");
 	}
 	
 	public void initSingleRouteTable(Route rt) {
@@ -96,10 +96,9 @@ public class RouteDetailsController implements Initializable{
 	}
 	
 	public void loadPage() {
-		//TODO 
 		if(stopsTable.getSelectionModel().getSelectedItem()!=null) {
-		String page = stopsTable.getSelectionModel().getSelectedItem().toSearchQuerry();
-		engine.load(page);
+			String page = stopsTable.getSelectionModel().getSelectedItem().toSearchQuerry();
+			engine.load(page);
 		} else noTableItemSelectedAlert();
 	}
 	
@@ -108,15 +107,76 @@ public class RouteDetailsController implements Initializable{
 	}
 	
 	public void addTransport(){
-		//TODO
+		
+		int transp = Integer.parseInt(activeTransportCounter.getText())+1;
+		activeTransportCounter.setText(""+transp);
+		
+		transp = Integer.parseInt(reserveTransportCounter.getText())-1;
+		reserveTransportCounter.setText(transp+"");
 	}
 	
 	public void removeTransport() {
-		//TODO
+		
+		int transp = Integer.parseInt(activeTransportCounter.getText())-1;
+		activeTransportCounter.setText(""+transp);
+		
+		transp = Integer.parseInt(reserveTransportCounter.getText())+1;
+		reserveTransportCounter.setText(transp+"");
 	}
 	
+	//Analysis of the current load and adjustment of the route
 	public void performAnalysis() {
-		//TODO
+		
+		int currentHour = LocalTime.now().getHour();
+		int optimalNumber=0;
+		int currentActiveTransport = Integer.parseInt(activeTransportCounter.getText());
+		int availableReserve = Integer.parseInt(reserveTransportCounter.getText());
+		int newInterval = 0;
+		if(currentHour >= 6.5 && currentHour <= 12) {
+			if(currentActiveTransport<6 && availableReserve >=6) {
+				optimalNumber = 7;
+				availableReserve -= (optimalNumber-currentActiveTransport);
+				newInterval = 5;
+				transportRaised(optimalNumber, newInterval);
+			}
+			else if(currentActiveTransport>7) {
+				optimalNumber = 7;
+				availableReserve += (currentActiveTransport-optimalNumber);
+				newInterval = 5;
+				transportLowered(optimalNumber,newInterval);
+			}
+		}
+		else if(currentHour>12 && currentHour<18) {
+			if(currentActiveTransport<3 && availableReserve >=4) {
+				optimalNumber = 5;
+				availableReserve -= (optimalNumber-currentActiveTransport);
+				newInterval = 13;
+				transportRaised(optimalNumber, newInterval);
+			}
+			else if(currentActiveTransport>5) {
+				optimalNumber = 5;
+				availableReserve += (currentActiveTransport-optimalNumber);
+				newInterval = 14;
+				transportLowered(optimalNumber,newInterval);
+			}
+		}
+		else if(currentHour>=18) {
+			if(currentActiveTransport<6 && availableReserve >=6) {
+				optimalNumber = 7;
+				availableReserve -= (optimalNumber-currentActiveTransport);
+				newInterval = 7;
+				transportRaised(optimalNumber, newInterval);
+			}
+			else if(currentActiveTransport>7) {
+				optimalNumber = 7;
+				availableReserve += (currentActiveTransport-optimalNumber);
+				newInterval = 8;
+				transportLowered(optimalNumber,newInterval);
+			}
+		}
+		activeTransportCounter.setText(""+optimalNumber);
+		reserveTransportCounter.setText(""+availableReserve);
+		intervalLbl.setText(newInterval+"хв");
 	}
 	
 	public void goToMain(ActionEvent event) {
@@ -129,6 +189,22 @@ public class RouteDetailsController implements Initializable{
 		alert.setTitle("Route Selection Error");
 		alert.setHeaderText("No stop is chosen for display!");
 		alert.setContentText("Please chose a stop in the table and repeat the operation");
+		alert.show();
+	}
+	
+	public void transportRaised(int optimalNumber, int newInterval) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Оновлення маршруту");
+		alert.setHeaderText("Кількість транспорту на маршруті та інтервал були змінені");
+		alert.setContentText("Нова кількість активного транспорту була збільшена до: "+optimalNumber+"; Новий інтервал "+ newInterval+"хв.");
+		alert.show();
+	}
+	
+	public void transportLowered(int optimalNumber, int newInterval) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Оновлення маршруту");
+		alert.setHeaderText("Кількість транспорту на маршруті та інтервал були змінені");
+		alert.setContentText("Нова кількість активного транспорту була зменшена до: "+optimalNumber+"; Новий інтервал "+ newInterval+"хв.");
 		alert.show();
 	}
 }

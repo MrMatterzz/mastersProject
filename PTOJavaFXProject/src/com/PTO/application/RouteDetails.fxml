@@ -57,6 +57,16 @@
             <Font name="Tahoma" size="20.0" />
          </font>
       </Label>
+      <Label layoutX="734.0" layoutY="681.0" text="Нинішній інтервал">
+         <font>
+            <Font name="Tahoma" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="intervalLbl" alignment="CENTER" layoutX="903.0" layoutY="681.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="50.0" text="5хв">
+         <font>
+            <Font name="Tahoma" size="20.0" />
+         </font>
+      </Label>
       <Button fx:id="mapViewBtn" layoutX="437.0" layoutY="116.0" mnemonicParsing="false" onAction="#loadPage" prefHeight="60.0" prefWidth="210.0" text="Відкрити на карті" AnchorPane.leftAnchor="1060.0" AnchorPane.topAnchor="116.0">
          <font>
             <Font name="Tahoma" size="18.0" />
