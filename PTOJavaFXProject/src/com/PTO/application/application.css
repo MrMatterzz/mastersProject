@@ -4,3 +4,9 @@ Pane{
 	-fx-border-color: black;
 	-fx-border-style: solid;
 }
+
+#singleRouteTable .table-row-cell {
+	-fx-cell-size: 50px;
+	-fx-text-alignment: center;
+	-fx-content-display: center;
+}

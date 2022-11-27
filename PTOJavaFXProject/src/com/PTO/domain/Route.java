@@ -18,6 +18,9 @@ public class Route {
 	private String lastStop;
 	private int amountOfActiveTransport;
 	
+	public final static String STATUS_ACTIVE = "Активний";
+	public final static String STATUS_INACTIVE = "Неактивний";
+	
 	public Route() {
 		super();
 	}
@@ -29,7 +32,7 @@ public class Route {
 		this.route = route;
 		this.firstStop = firstStop;
 		this.lastStop = lastStop;
-		this.routeStatus = "�� �������";
+		this.routeStatus = STATUS_ACTIVE;
 	}
 	
 	public String getRouteNumber() {

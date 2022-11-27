@@ -1,14 +1,14 @@
 package com.PTO.dao;
 
-import java.util.List;
-
 import com.PTO.domain.RouteStop;
+
+import javafx.collections.ObservableList;
 
 public interface RouteStopDAO {
 	
 	RouteStop getStopByID(int id);
 	RouteStop getStopByAddress(String address);
-	List<RouteStop> getAllStops();
+	ObservableList<RouteStop> getAllStops();
 	boolean updateStop(RouteStop routeStop);
 	boolean insertStop(RouteStop routeStop);
 	boolean deleteStop(int id);

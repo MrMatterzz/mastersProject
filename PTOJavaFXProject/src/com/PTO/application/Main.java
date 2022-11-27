@@ -22,7 +22,7 @@ public class Main extends Application {
 			Image appIcon = new Image("C:\\Users\\MISHA\\Desktop\\Work files\\MasterProject\\PTOJavaFXProject\\src\\com\\PTO\\application\\app.png");
 			primaryStage.getIcons().add(appIcon);
 			primaryStage.setResizable(false);
-			primaryStage.setTitle("Public Traffic Organizer");
+			primaryStage.setTitle("Public Ground Traffic Automatization Assistant");
 			
 			primaryStage.setScene(scene);
 			primaryStage.show();

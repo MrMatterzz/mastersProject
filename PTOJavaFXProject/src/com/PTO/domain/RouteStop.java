@@ -1,5 +1,10 @@
 package com.PTO.domain;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class RouteStop {
 	
 	private int id;
@@ -21,6 +26,10 @@ public class RouteStop {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public IntegerProperty idProperty() {
+		return new SimpleIntegerProperty(this.getId());
+	}
 
 	public String getAddress() {
 		return address;
@@ -30,14 +39,18 @@ public class RouteStop {
 		this.address = address;
 	}
 	
+	public StringProperty addressProperty() {
+		return new SimpleStringProperty(this.getAddress());
+	}
+	
 	public String toSearchQuerry() {
 		String[] stopAddress = this.address.split(" ");
-		String querry = "https://www.google.com/maps/search/?api=1&query=зупинка+";
+		String querry = "https://www.google.com/maps/search/?api=1&query=пїЅпїЅпїЅпїЅпїЅпїЅпїЅ+";
 		for(int i=0;i<stopAddress.length;i++) {
 			if(i<stopAddress.length-1)
 				querry+=stopAddress[i]+"+";
 			else 
-				querry+=stopAddress[i]+"&,+Київ";
+				querry+=stopAddress[i]+"&,+пїЅпїЅпїЅ";
 		} 
 		return querry;
 	}

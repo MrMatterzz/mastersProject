@@ -1,5 +1,6 @@
 package com.PTO.application;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -7,15 +8,20 @@ import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
 import com.PTO.dao.RouteDAO;
 import com.PTO.dao.RouteDAOImpl;
@@ -29,6 +35,10 @@ import com.PTO.domain.Transport;
 
 public class MainController implements Initializable{
 	
+	private Stage stage;
+	private Scene scene;
+	private Parent root;
+	
 	//Initializing the Route objects for proper interactions;
 	private RouteDAO routeDAO = new RouteDAOImpl();
 	private RouteStopDAO routeStopDAO = new RouteStopDAOImpl();
@@ -41,7 +51,7 @@ public class MainController implements Initializable{
 	private WebEngine engine;
 	private String homepage;
 	
-	private double webZoom = 1.00;
+	//private double webZoom = 1.00;
 	
 	//Injecting teh ChoiceBox for criteria search
 	@FXML
@@ -53,11 +63,9 @@ public class MainController implements Initializable{
 	@FXML
 	private TableView<Route> routesTable;
 	@FXML
-	private TableColumn<Route, String> routeNumber, transportType, routeStatus, firstStop, lastStop;
+	private TableColumn<Route, String> routeNumber, transportType, routeStatus, firstStop, lastStop, route;
 	@FXML
 	private TableColumn<Route, Integer> amountOfStops;
-	@FXML
-	private TableColumn<Route, String> route;
 	//Initializing observable list for table to display
 	ObservableList<Route> tableData = routeDAO.getAllRoutes();
 	
@@ -204,14 +212,38 @@ public class MainController implements Initializable{
 	public void changeRouteStatus() {
 		if(routesTable.getSelectionModel().getSelectedItem()!=null) {
 			String status;
-			if(routesTable.getSelectionModel().getSelectedItem().getRouteStatus().equals("Активний")) {
-				status = "Неактивний";
+			if(routesTable.getSelectionModel().getSelectedItem().getRouteStatus().equals(Route.STATUS_ACTIVE)) {
+				status = Route.STATUS_INACTIVE;
 			} else {
-				status = "Активний";
+				status = Route.STATUS_ACTIVE;
 			}
 			routesTable.getSelectionModel().getSelectedItem().setRouteStatus(status);
 			routeDAO.updateRoute(routesTable.getSelectionModel().getSelectedItem());
 			routesTable.refresh();
+			
+		} else noTableItemSelectedAlert();
+	}
+	
+	public void openRouteDetails() throws IOException {
+		if(routesTable.getSelectionModel().getSelectedItem()!=null) {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("RouteDetails.fxml"));
+			root = loader.load();
+			scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			stage = new Stage();
+			
+			RouteDetailsController routeDetailsController = loader.getController();
+			Route rt = routesTable.getSelectionModel().getSelectedItem();
+			routeDetailsController.initSingleRouteTable(rt);
+			routeDetailsController.loadPage(rt.toRouteQuerry());
+		
+			Image appIcon = new Image("C:\\Users\\MISHA\\Desktop\\Work files\\MasterProject\\PTOJavaFXProject\\src\\com\\PTO\\application\\app.png");
+			stage.getIcons().add(appIcon);
+			stage.setResizable(false);
+			stage.setTitle("Route Details");
+			
+			stage.setScene(scene);
+			stage.show();
 			
 		} else noTableItemSelectedAlert();
 	}

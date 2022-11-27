@@ -5,11 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.PTO.ConnectionFactory;
 import com.PTO.domain.RouteStop;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class RouteStopDAOImpl implements RouteStopDAO {
 
@@ -44,13 +45,13 @@ public class RouteStopDAOImpl implements RouteStopDAO {
 	}
 
 	@Override
-	public List<RouteStop> getAllStops() {
+	public ObservableList<RouteStop> getAllStops() {
 		try (Connection connection = ConnectionFactory.getConnection();
 	        	 Statement stmt = connection.createStatement();
 		         ResultSet rs = stmt.executeQuery("SELECT * FROM routeStops");
 	        		)
 	        	{ 
-	          	 List<RouteStop> stops = new ArrayList<RouteStop>();
+	          	 ObservableList<RouteStop> stops = FXCollections.observableArrayList();
 		         while(rs.next()){
 	                   RouteStop stop = extractRouteStopFromResultSet(rs);
 	                   stops.add(stop);
