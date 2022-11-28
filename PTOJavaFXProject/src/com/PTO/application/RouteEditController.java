@@ -1,8 +1,6 @@
 package com.PTO.application;
 
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import com.PTO.dao.RouteStopDAO;
 import com.PTO.dao.RouteStopDAOImpl;
@@ -74,18 +72,52 @@ private RouteStopDAO routeStopDAO = new RouteStopDAOImpl();
 	
 	public void initActionRouteStopTable() {
 		
+		actionStopID.setCellValueFactory(data->data.getValue().idProperty().asObject());
+		actionStopAddress.setCellValueFactory(data->data.getValue().addressProperty());
+		
+		actionRouteStopTableData = routeStopDAO.getAllStops();
+		//System.out.println(routeStopTableData);
+		for(int i=0; i<actionRouteStopTableData.size();i++) {
+			for(RouteStop rs : routeStopTableData) {
+				if(rs.getId()==actionRouteStopTableData.get(i).getId()) {
+					actionRouteStopTableData.remove(i);
+				}
+			}
+		}
+		actionStopsTable.setItems(actionRouteStopTableData);
 	}
 	
 	public void addStop() {
-		//TODO
+		if (!actionRouteStopTableData.isEmpty()) {
+			if(actionStopsTable.getSelectionModel().getSelectedItem()!=null) {
+				//TODO implement proper action for this method
+				actionRouteStopTableData.clear();
+				actionStopsTable.refresh();
+			}
+			else noTableItemSelectedAlert();
+			
+		}
+		else {
+			initActionRouteStopTable();
+		}
 	}
 	
 	public void changeStop() {
-		
+		//TODO implement proper action for this method
 	}
 	
 	public void removeStop() {
-		
+		if(stopsTable.getSelectionModel().getSelectedItem()!=null) {
+			if(stopsTable.getSelectionModel().getSelectedItem()==routeStopTableData.get(0) || stopsTable.getSelectionModel().getSelectedItem()==routeStopTableData.get(routeStopTableData.size()-1)) {
+				incorrectTableItemSelectedAlert();
+			} else {
+				routeStopTableData.remove(stopsTable.getSelectionModel().getSelectedItem());
+				stopsTable.refresh();
+			}
+		}
+		else {
+			noTableItemSelectedAlert();
+		}
 	}
 	
 	public void goToMain(ActionEvent event) {
@@ -95,9 +127,25 @@ private RouteStopDAO routeStopDAO = new RouteStopDAOImpl();
 	
 	public void noTableItemSelectedAlert() {
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Route Selection Error");
+		alert.setTitle("Stop Selection Error");
 		alert.setHeaderText("No stop is chosen for display!");
 		alert.setContentText("Please chose a stop in the table and repeat the operation");
-		alert.show();
+		alert.showAndWait();
 	}
+	
+	public void incorrectTableItemSelectedAlert() {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Stop Selection Error");
+		alert.setHeaderText("Cannot change or remove either First or Last stop!");
+		alert.setContentText("Please chose a different stop in the table and repeat the operation");
+		alert.showAndWait();
+	}
+	
+//	public void incorrectTableItemSelectedAlert2() {
+//		Alert alert = new Alert(AlertType.ERROR);
+//		alert.setTitle("Stop Selection Error");
+//		alert.setHeaderText("Cannot add or change the stop to the one that already exists on the route!");
+//		alert.setContentText("Please chose a different stop in the table and repeat the operation");
+//		alert.showAndWait();
+//	}
 }

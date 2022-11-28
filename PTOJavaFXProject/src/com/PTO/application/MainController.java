@@ -264,26 +264,28 @@ public class MainController implements Initializable{
 	}
 	
 	public void authWindow(ActionEvent event) throws IOException {
-		Button callerBtn = (Button) event.getSource();
-		//System.out.println(callerBtn.getId());
-		stage = new Stage();
-		stage.getIcons().add(appIcon);
-		stage.setResizable(false);
-		stage.setTitle("Authentication");
-		PasswordField ps = new PasswordField();
-		ps.setPrefWidth(200);
-		Button loginBtn = new Button("Увійти");
-		loginBtn.setOnAction(e -> {
-			try {
-				login(e, ps.getText(), callerBtn.getId());
-			} catch (IOException err) {
-				err.printStackTrace();
-			}
-		});
-		HBox hb = new HBox(ps,loginBtn);
-		scene = new Scene(hb,250,30);
-		stage.setScene(scene);
-		stage.show();
+		if(routesTable.getSelectionModel().getSelectedItem()!=null) {
+			Button callerBtn = (Button) event.getSource();
+			//System.out.println(callerBtn.getId());
+			stage = new Stage();
+			stage.getIcons().add(appIcon);
+			stage.setResizable(false);
+			stage.setTitle("Authentication");
+			PasswordField ps = new PasswordField();
+			ps.setPrefWidth(200);
+			Button loginBtn = new Button("Увійти");
+			loginBtn.setOnAction(e -> {
+				try {
+					login(e, ps.getText(), callerBtn.getId());
+				} catch (IOException err) {
+					err.printStackTrace();
+				}
+			});
+			HBox hb = new HBox(ps,loginBtn);
+			scene = new Scene(hb,250,30);
+			stage.setScene(scene);
+			stage.show();
+		} else noTableItemSelectedAlert();
 	}
 	
 	public void login(ActionEvent event, String password, String callerBtnId) throws IOException {
@@ -298,6 +300,10 @@ public class MainController implements Initializable{
 					scene = new Scene(root);
 					scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 					stage = new Stage();
+					
+					RouteEditController routeEditController = loader.getController();
+					Route rt = routesTable.getSelectionModel().getSelectedItem();
+					routeEditController.initSingleRouteTable(rt);
 					
 					stage.getIcons().add(appIcon);
 					stage.setResizable(false);
