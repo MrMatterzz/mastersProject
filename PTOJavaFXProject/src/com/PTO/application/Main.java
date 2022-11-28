@@ -19,7 +19,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root,1440,900);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
-			Image appIcon = new Image("C:\\Users\\MISHA\\Desktop\\Work files\\MasterProject\\PTOJavaFXProject\\src\\com\\PTO\\application\\app.png");
+			Image appIcon = new Image(getClass().getResource("/com/PTO/application/app.png").toString());
 			primaryStage.getIcons().add(appIcon);
 			primaryStage.setResizable(false);
 			primaryStage.setTitle("Public Ground Traffic Automatization Assistant");

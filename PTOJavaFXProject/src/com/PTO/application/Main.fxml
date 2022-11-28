@@ -111,14 +111,14 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Pane>
-      <Pane layoutX="867.0" layoutY="439.0" prefHeight="94.0" prefWidth="564.0" AnchorPane.topAnchor="429.0">
+      <Pane layoutX="867.0" layoutY="419.0" prefHeight="94.0" prefWidth="564.0" AnchorPane.topAnchor="419.0">
          <children>
-            <Button fx:id="routeEditBtn" layoutX="8.0" layoutY="14.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="259.0" text="Відредагувати маршрут">
+            <Button fx:id="routeEditBtn" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#authWindow" prefHeight="70.0" prefWidth="259.0" text="Відредагувати маршрут">
                <font>
                   <Font name="Tahoma" size="18.0" />
                </font>
             </Button>
-            <Button fx:id="changeRouteStatusBtn" layoutX="284.0" layoutY="14.0" mnemonicParsing="false" onAction="#changeRouteStatus" prefHeight="70.0" prefWidth="259.0" text="Змінити статус маршруту">
+            <Button fx:id="changeRouteStatusBtn" layoutX="295.0" layoutY="14.0" mnemonicParsing="false" onAction="#authWindow" prefHeight="70.0" prefWidth="259.0" text="Змінити статус маршруту">
                <font>
                   <Font name="Tahoma" size="18.0" />
                </font>

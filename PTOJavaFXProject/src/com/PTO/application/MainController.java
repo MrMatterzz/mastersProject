@@ -10,13 +10,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.HBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.web.WebEngine;
@@ -38,6 +42,10 @@ public class MainController implements Initializable{
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
+	
+	private Image appIcon = new Image(getClass().getResource("/com/PTO/application/app.png").toString());
+	
+	private final String adminPass = "adminPass";
 	
 	//Initializing the Route objects for proper interactions;
 	private RouteDAO routeDAO = new RouteDAOImpl();
@@ -237,7 +245,6 @@ public class MainController implements Initializable{
 			routeDetailsController.initSingleRouteTable(rt);
 			routeDetailsController.loadPage(rt.toRouteQuerry());
 		
-			Image appIcon = new Image("C:\\Users\\MISHA\\Desktop\\Work files\\MasterProject\\PTOJavaFXProject\\src\\com\\PTO\\application\\app.png");
 			stage.getIcons().add(appIcon);
 			stage.setResizable(false);
 			stage.setTitle("Route Details");
@@ -250,9 +257,63 @@ public class MainController implements Initializable{
 	
 	public void noTableItemSelectedAlert() {
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Route Selection Error");
-		alert.setHeaderText("No route is chosen for display!");
-		alert.setContentText("Please chose a route in the table and repeat the operation");
-		alert.show();
+		alert.setTitle("Помилка");
+		alert.setHeaderText("Жодного маршруту не було обрано для відображення!");
+		alert.setContentText("Будь-ласка оберіть маршрут з таблиці і повторіть операцію");
+		alert.showAndWait();
+	}
+	
+	public void authWindow(ActionEvent event) throws IOException {
+		Button callerBtn = (Button) event.getSource();
+		//System.out.println(callerBtn.getId());
+		stage = new Stage();
+		stage.getIcons().add(appIcon);
+		stage.setResizable(false);
+		stage.setTitle("Authentication");
+		PasswordField ps = new PasswordField();
+		ps.setPrefWidth(200);
+		Button loginBtn = new Button("Увійти");
+		loginBtn.setOnAction(e -> {
+			try {
+				login(e, ps.getText(), callerBtn.getId());
+			} catch (IOException err) {
+				err.printStackTrace();
+			}
+		});
+		HBox hb = new HBox(ps,loginBtn);
+		scene = new Scene(hb,250,30);
+		stage.setScene(scene);
+		stage.show();
+	}
+	
+	public void login(ActionEvent event, String password, String callerBtnId) throws IOException {
+//		Button button = (Button) event.getSource();
+//		System.out.println(button.getId());
+			if(password.equals(adminPass)) {
+				stage =(Stage) ((Node) event.getSource()).getScene().getWindow();
+				stage.close();
+				if(callerBtnId.equals("routeEditBtn")) {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("RouteEdit.fxml"));
+					root = loader.load();
+					scene = new Scene(root);
+					scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+					stage = new Stage();
+					
+					stage.getIcons().add(appIcon);
+					stage.setResizable(false);
+					stage.setTitle("Route Editing");
+					
+					stage.setScene(scene);
+					stage.show();
+				} else changeRouteStatus();
+			} else {
+				stage =(Stage) ((Node) event.getSource()).getScene().getWindow();
+				stage.close();
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Помилка авторизації");
+				alert.setHeaderText("Помилка авторизації");
+				alert.setContentText("Ви ввели некоректний код доступу, повторіть операцію і спробуйте інший код");
+				alert.showAndWait();
+			}
 	}
 }
