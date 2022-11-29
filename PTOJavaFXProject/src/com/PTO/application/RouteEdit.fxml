@@ -59,7 +59,15 @@
             <Insets />
          </opaqueInsets>
       </Button>
-      <Button fx:id="returnBtn" layoutX="534.0" layoutY="333.0" mnemonicParsing="false" onAction="#goToMain" prefHeight="60.0" prefWidth="210.0" text="Повернутися">
+      <Button fx:id="cancelBtn" layoutX="534.0" layoutY="333.0" mnemonicParsing="false" onAction="#cancelAction" prefHeight="60.0" prefWidth="210.0" text="Відмінити">
+         <font>
+            <Font name="Tahoma" size="18.0" />
+         </font>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+      <Button fx:id="returnBtn" layoutX="535.0" layoutY="403.0" mnemonicParsing="false" onAction="#goToMain" prefHeight="60.0" prefWidth="210.0" text="Повернутися">
          <font>
             <Font name="Tahoma" size="18.0" />
          </font>

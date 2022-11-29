@@ -18,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
@@ -42,9 +43,14 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 	@FXML
 	private TableColumn<RouteStop,String> stopAddress, actionStopAddress;
 	
+	@FXML
+	private Button addStopBtn, removeStopBtn, changeStopBtn;
+	
 	ObservableList<Route> routeTableData = FXCollections.observableArrayList();
 	ObservableList<RouteStop> routeStopTableData = FXCollections.observableArrayList();
 	ObservableList<RouteStop> actionRouteStopTableData = FXCollections.observableArrayList();
+	
+	private int stopIndexForChange;
 	
 	public void initSingleRouteTable(Route rt) {
 		routeNumber.setCellValueFactory(data->data.getValue().routeNumberProperty());
@@ -94,7 +100,6 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 	public void addStop() {
 		if (!actionRouteStopTableData.isEmpty()) {
 			if(actionStopsTable.getSelectionModel().getSelectedItem()!=null) {
-				//TODO Test the implementation
 				RouteStop stop = actionStopsTable.getSelectionModel().getSelectedItem();
 				routeTableData.get(0).extendRoute(stop.getId());
 				routeTableData.get(0).setAmountOfStops(routeTableData.get(0).getRoute().size());
@@ -106,29 +111,47 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 				
 				actionRouteStopTableData.clear();
 				actionStopsTable.refresh();
+				removeStopBtn.setDisable(false);
+				changeStopBtn.setDisable(false);
 			}
 			else noTableItemSelectedAlert();
 			
 		}
 		else {
 			initActionRouteStopTable();
+			removeStopBtn.setDisable(true);
+			changeStopBtn.setDisable(true);
 		}
 	}
 	
 	public void changeStop() {
-		if (!actionRouteStopTableData.isEmpty()) {
-			if(actionStopsTable.getSelectionModel().getSelectedItem()!=null) {
-				//TODO implement proper action for this method
+		
+			if (!actionRouteStopTableData.isEmpty()) {
+				if(actionStopsTable.getSelectionModel().getSelectedItem()!= null && stopsTable.getSelectionModel().getSelectedItem() != null) {
+					Route rt = routeTableData.get(0);
+					routeStopTableData.set(stopIndexForChange, actionStopsTable.getSelectionModel().getSelectedItem());
+					rt.getRoute().set(stopIndexForChange, actionStopsTable.getSelectionModel().getSelectedItem().getId());
+					routeDAO.updateRoute(rt);
+					routeTableData.set(0, rt);
+					
+					singleRouteTable.refresh();
+					stopsTable.refresh();
+					actionRouteStopTableData.clear();
+					actionStopsTable.refresh();
+					addStopBtn.setDisable(false);
+					removeStopBtn.setDisable(false);
+				}
+				else noTableItemSelectedAlert();
 				
-				actionRouteStopTableData.clear();
-				actionStopsTable.refresh();
 			}
-			else noTableItemSelectedAlert();
-			
-		}
-		else {
-			initActionRouteStopTable();
-		}
+			else {
+				if(stopsTable.getSelectionModel().getSelectedItem() != null) {
+					stopIndexForChange = stopsTable.getSelectionModel().getSelectedIndex();
+					initActionRouteStopTable();
+					addStopBtn.setDisable(true);
+					removeStopBtn.setDisable(true);
+				} else noTableItemSelectedAlert();
+			}
 	}
 	
 	public void removeStop() {
@@ -180,5 +203,13 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 		alert.setHeaderText("Підтвердіть видалення зупинки з маршруту");
 		alert.setContentText("Ви впевнені що хочете прибрати цю зупинку?");
 		return alert.showAndWait().get();
+	}
+	
+	public void cancelAction() {
+		addStopBtn.setDisable(false);
+		removeStopBtn.setDisable(false);
+		changeStopBtn.setDisable(false);
+		actionRouteStopTableData.clear();
+		actionStopsTable.refresh();
 	}
 }
