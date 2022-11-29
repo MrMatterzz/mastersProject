@@ -2,6 +2,8 @@ package com.PTO.application;
 
 import java.util.List;
 
+import com.PTO.dao.RouteDAO;
+import com.PTO.dao.RouteDAOImpl;
 import com.PTO.dao.RouteStopDAO;
 import com.PTO.dao.RouteStopDAOImpl;
 import com.PTO.domain.Route;
@@ -16,11 +18,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 public class RouteEditController{
 
 private RouteStopDAO routeStopDAO = new RouteStopDAOImpl();
+private RouteDAO routeDAO = new RouteDAOImpl();
 	
 	//Injecting the table and rows for the route
 	@FXML
@@ -90,7 +94,16 @@ private RouteStopDAO routeStopDAO = new RouteStopDAOImpl();
 	public void addStop() {
 		if (!actionRouteStopTableData.isEmpty()) {
 			if(actionStopsTable.getSelectionModel().getSelectedItem()!=null) {
-				//TODO implement proper action for this method
+				//TODO Test the implementation
+				RouteStop stop = actionStopsTable.getSelectionModel().getSelectedItem();
+				routeTableData.get(0).extendRoute(stop.getId());
+				routeTableData.get(0).setAmountOfStops(routeTableData.get(0).getRoute().size());
+				routeDAO.updateRoute(routeTableData.get(0));
+				
+				singleRouteTable.refresh();
+				routeStopTableData.clear();
+				initRouteStopTable();
+				
 				actionRouteStopTableData.clear();
 				actionStopsTable.refresh();
 			}
@@ -103,7 +116,19 @@ private RouteStopDAO routeStopDAO = new RouteStopDAOImpl();
 	}
 	
 	public void changeStop() {
-		//TODO implement proper action for this method
+		if (!actionRouteStopTableData.isEmpty()) {
+			if(actionStopsTable.getSelectionModel().getSelectedItem()!=null) {
+				//TODO implement proper action for this method
+				
+				actionRouteStopTableData.clear();
+				actionStopsTable.refresh();
+			}
+			else noTableItemSelectedAlert();
+			
+		}
+		else {
+			initActionRouteStopTable();
+		}
 	}
 	
 	public void removeStop() {
@@ -111,8 +136,16 @@ private RouteStopDAO routeStopDAO = new RouteStopDAOImpl();
 			if(stopsTable.getSelectionModel().getSelectedItem()==routeStopTableData.get(0) || stopsTable.getSelectionModel().getSelectedItem()==routeStopTableData.get(routeStopTableData.size()-1)) {
 				incorrectTableItemSelectedAlert();
 			} else {
-				routeStopTableData.remove(stopsTable.getSelectionModel().getSelectedItem());
-				stopsTable.refresh();
+				if(confirmationAlert() == ButtonType.OK) {
+					int stopId = stopsTable.getSelectionModel().getSelectedIndex();
+					routeTableData.get(0).removeRouteStop(stopId);
+					routeTableData.get(0).setAmountOfStops(routeTableData.get(0).getRoute().size());
+					routeDAO.updateRoute(routeTableData.get(0));
+					
+					singleRouteTable.refresh();
+					routeStopTableData.remove(stopsTable.getSelectionModel().getSelectedItem());
+					stopsTable.refresh();
+				}
 			}
 		}
 		else {
@@ -127,25 +160,25 @@ private RouteStopDAO routeStopDAO = new RouteStopDAOImpl();
 	
 	public void noTableItemSelectedAlert() {
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Stop Selection Error");
-		alert.setHeaderText("No stop is chosen for display!");
-		alert.setContentText("Please chose a stop in the table and repeat the operation");
+		alert.setTitle("Помилка вибору зупинки!");
+		alert.setHeaderText("Жодної зупинки не було вибрано!");
+		alert.setContentText("Будь-ласка оберіть зупинку із таблиці та повторіть операцію.");
 		alert.showAndWait();
 	}
 	
 	public void incorrectTableItemSelectedAlert() {
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Stop Selection Error");
-		alert.setHeaderText("Cannot change or remove either First or Last stop!");
-		alert.setContentText("Please chose a different stop in the table and repeat the operation");
+		alert.setTitle("Помилка вибору зупинки!");
+		alert.setHeaderText("Неможливо змінити або видалити першу та останню зупинки!");
+		alert.setContentText("Будь-ласка оберіть іншу зупинку у таблиці та повторіть операцію.");
 		alert.showAndWait();
 	}
 	
-//	public void incorrectTableItemSelectedAlert2() {
-//		Alert alert = new Alert(AlertType.ERROR);
-//		alert.setTitle("Stop Selection Error");
-//		alert.setHeaderText("Cannot add or change the stop to the one that already exists on the route!");
-//		alert.setContentText("Please chose a different stop in the table and repeat the operation");
-//		alert.showAndWait();
-//	}
+	public ButtonType confirmationAlert() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Прибираня зупинки");
+		alert.setHeaderText("Підтвердіть видалення зупинки з маршруту");
+		alert.setContentText("Ви впевнені що хочете прибрати цю зупинку?");
+		return alert.showAndWait().get();
+	}
 }
