@@ -260,7 +260,20 @@ public class MainController implements Initializable{
 	}
 	
 	public void openTransportDetails() throws IOException{
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("TransportDetails.fxml"));
+		root = loader.load();
+		scene = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		stage = new Stage();
 		
+		
+		
+		stage.getIcons().add(appIcon);
+		stage.setResizable(false);
+		stage.setTitle("Route Editing");
+		
+		stage.setScene(scene);
+		stage.showAndWait();
 	}
 	
 	//To be called when trying to perform an action that requires user to chose an item from the table;
