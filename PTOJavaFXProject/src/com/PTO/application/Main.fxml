@@ -11,67 +11,67 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PTO.application.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1440.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PTO.application.MainController">
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
    </padding>
    <children>
-      <Pane layoutX="5.0" layoutY="14.0" prefHeight="200.0" prefWidth="1430.0" stylesheets="@application.css" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <Pane layoutX="867.0" layoutY="10.0" prefHeight="200.0" prefWidth="564.0" stylesheets="@application.css">
          <children>
-            <Label fx:id="generalnfoLbl" alignment="CENTER" layoutX="1.0" layoutY="14.0" prefHeight="30.0" prefWidth="1420.0" text="Загальна Інформація" textAlignment="CENTER">
-               <font>
-                  <Font name="Tahoma" size="24.0" />
-               </font>
-               <padding>
-                  <Insets top="5.0" />
-               </padding>
-            </Label>
-            <Label alignment="CENTER" layoutX="181.0" layoutY="86.0" prefHeight="30.0" prefWidth="280.0" text="Кількість активних маршрутів">
+            <Label layoutX="15.0" layoutY="15.0" prefHeight="30.0" prefWidth="280.0" text="Кількість активних маршрутів">
                <font>
                   <Font name="Tahoma" size="20.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="461.0" layoutY="88.0" prefWidth="280.0" text="Кількість активних автобусів">
+            <Label layoutX="15.0" layoutY="55.0" prefWidth="280.0" text="Кількість активних автобусів">
                <font>
                   <Font name="Tahoma" size="20.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="741.0" layoutY="86.0" prefWidth="290.0" text="Кількість активних тролейбусів">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutX="1031.0" layoutY="86.0" prefWidth="280.0" text="Кількість активних трамваїв">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="activeRoutesCounter" alignment="CENTER" layoutX="291.0" layoutY="127.0" prefWidth="60.0" text="15">
+            <Label layoutX="15.0" layoutY="95.0" prefWidth="290.0" text="Кількість активних тролейбусів">
                <font>
                   <Font name="Tahoma" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="activeBusCounter" alignment="CENTER" layoutX="571.0" layoutY="127.0" prefWidth="60.0" text="15">
+            <Label layoutX="15.0" layoutY="135.0" prefWidth="280.0" text="Кількість активних трамваїв">
                <font>
-                  <Font size="20.0" />
+                  <Font name="Tahoma" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="activeTrBusCounter" alignment="CENTER" layoutX="856.0" layoutY="127.0" prefWidth="60.0" text="15">
+            <Label fx:id="activeRoutesCounter" alignment="CENTER" layoutX="295.0" layoutY="18.0" prefWidth="60.0" text="15">
                <font>
-                  <Font size="20.0" />
+                  <Font name="Tahoma" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="activeTramCounter" alignment="CENTER" layoutX="1148.0" layoutY="127.0" prefWidth="60.0" text="15">
+            <Label fx:id="activeBusCounter" alignment="CENTER" layoutX="295.0" layoutY="55.0" prefWidth="60.0" text="15">
                <font>
-                  <Font size="20.0" />
+                  <Font name="Tahoma" size="20.0" />
                </font>
             </Label>
+            <Label fx:id="activeTrBusCounter" alignment="CENTER" layoutX="295.0" layoutY="95.0" prefWidth="60.0" text="15">
+               <font>
+                  <Font name="Tahoma" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="activeTramCounter" alignment="CENTER" layoutX="295.0" layoutY="135.0" prefWidth="60.0" text="15">
+               <font>
+                  <Font name="Tahoma" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="transDetailsBtn" layoutX="350.0" layoutY="55.0" mnemonicParsing="false" onAction="#openTransportDetails" prefHeight="70.0" prefWidth="200.0" text="Подивитися деталі">
+               <font>
+                  <Font name="Tahoma" size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </opaqueInsets>
+            </Button>
          </children>
          <padding>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Pane>
-      <TableView id="routesTable" fx:id="routesTable" editable="true" layoutX="10.0" layoutY="219.0" prefHeight="667.0" prefWidth="849.0">
+      <TableView id="routesTable" fx:id="routesTable" editable="true" layoutX="10.0" layoutY="10.0" prefHeight="877.0" prefWidth="850.0">
         <columns>
           <TableColumn id="routeNumber" fx:id="routeNumber" prefWidth="75.0" text="Номер маршруту" />
           <TableColumn id="transportType" fx:id="transportType" prefWidth="75.0" text="Тип транспорту" />
@@ -111,7 +111,7 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Pane>
-      <Pane layoutX="867.0" layoutY="419.0" prefHeight="94.0" prefWidth="564.0" AnchorPane.topAnchor="419.0">
+      <Pane layoutX="867.0" layoutY="419.0" prefHeight="95.0" prefWidth="564.0" AnchorPane.topAnchor="419.0">
          <children>
             <Button fx:id="routeEditBtn" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#authWindow" prefHeight="70.0" prefWidth="259.0" text="Відредагувати маршрут">
                <font>
@@ -160,6 +160,6 @@
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </padding>
       </Pane>
-      <WebView fx:id="routeWebView" layoutX="867.0" layoutY="533.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="564.0" />
+      <WebView fx:id="routeWebView" layoutX="867.0" layoutY="533.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="564.0" />
    </children>
 </AnchorPane>

@@ -259,6 +259,10 @@ public class MainController implements Initializable{
 		} else noTableItemSelectedAlert();
 	}
 	
+	public void openTransportDetails() throws IOException{
+		
+	}
+	
 	//To be called when trying to perform an action that requires user to chose an item from the table;
 	public void noTableItemSelectedAlert() {
 		Alert alert = new Alert(AlertType.ERROR);
