@@ -67,7 +67,7 @@ public class MainController implements Initializable{
 	
 	private String criteriaVals[] = {"Номер маршруту", "Тип маршруту", "Номер транспорту", "Назва зупинки"};
 	
-	//Imjecting table and columns
+	//Injecting table and columns
 	@FXML
 	private TableView<Route> routesTable;
 	@FXML
@@ -154,6 +154,7 @@ public class MainController implements Initializable{
 		
 	}
 	
+	//Table is being updated based on the criteria in the criteria box and srchBox. Info is being pulled from the database on each request so it always up to date.  
 	public void updateTableData(ActionEvent event) {
 		
 		String criteria = criteriaBox.getValue();
@@ -213,10 +214,12 @@ public class MainController implements Initializable{
 		
 	}
 	
+	//Reloads the routeWebView module. Not actually used anywhere though.
 	public void refreshPage() {
 		engine.reload();
 	}
 	
+	//Takes the selected route from the table and changes it's status to opposite. Posts changes to the database and updates the table.
 	public void changeRouteStatus() {
 		if(routesTable.getSelectionModel().getSelectedItem()!=null) {
 			String status;
@@ -232,6 +235,7 @@ public class MainController implements Initializable{
 		} else noTableItemSelectedAlert();
 	}
 	
+	//Opens a new Window with the Specified route details; Sends the chosen route to that window's controller to populate local tables.
 	public void openRouteDetails() throws IOException {
 		if(routesTable.getSelectionModel().getSelectedItem()!=null) {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("RouteDetails.fxml"));
@@ -255,6 +259,7 @@ public class MainController implements Initializable{
 		} else noTableItemSelectedAlert();
 	}
 	
+	//To be called when trying to perform an action that requires user to chose an item from the table;
 	public void noTableItemSelectedAlert() {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Помилка");
@@ -263,6 +268,8 @@ public class MainController implements Initializable{
 		alert.showAndWait();
 	}
 	
+	//Creates a window with the password field. To be called when performing an action that requires authorization
+	//e.g. changing route status or editing route.
 	public void authWindow(ActionEvent event) throws IOException {
 		if(routesTable.getSelectionModel().getSelectedItem()!=null) {
 			Button callerBtn = (Button) event.getSource();
@@ -288,12 +295,15 @@ public class MainController implements Initializable{
 		} else noTableItemSelectedAlert();
 	}
 	
+	//Being called from the authWindow to verify the password provided. 
+	//Takes event, String password and string callerBtnId as arguments. event is used to close the authWindow itself. 
+	//password is being verified to authenticate the action. and callerBtnId is used to determine what action has to be performed.
 	public void login(ActionEvent event, String password, String callerBtnId) throws IOException {
 //		Button button = (Button) event.getSource();
 //		System.out.println(button.getId());
+			stage =(Stage) ((Node) event.getSource()).getScene().getWindow();
+			stage.close();
 			if(password.equals(adminPass)) {
-				stage =(Stage) ((Node) event.getSource()).getScene().getWindow();
-				stage.close();
 				if(callerBtnId.equals("routeEditBtn")) {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("RouteEdit.fxml"));
 					root = loader.load();
@@ -313,8 +323,6 @@ public class MainController implements Initializable{
 					stage.show();
 				} else changeRouteStatus();
 			} else {
-				stage =(Stage) ((Node) event.getSource()).getScene().getWindow();
-				stage.close();
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Помилка авторизації");
 				alert.setHeaderText("Помилка авторизації");

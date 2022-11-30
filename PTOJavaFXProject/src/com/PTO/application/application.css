@@ -7,10 +7,15 @@ Pane{
 
 .table-row-cell{
 	-fx-cell-size: 30px;
+	-fx-cursor: hand;
 }
 
 #singleRouteTable .table-row-cell {
 	-fx-cell-size: 60px;
 	-fx-text-alignment: center;
 	-fx-content-display: center;
+}
+
+Button{
+	-fx-cursor:hand;
 }

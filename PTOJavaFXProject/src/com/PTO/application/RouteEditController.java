@@ -35,7 +35,7 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 	@FXML
 	private TableColumn<Route, Integer> amountOfStops;
 	
-	//Injecting table and columns for the route stops
+	//Injecting table and columns for both route stops instances of tables
 	@FXML
 	private TableView<RouteStop> stopsTable, actionStopsTable;
 	@FXML
@@ -52,6 +52,7 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 	
 	private int stopIndexForChange;
 	
+	//The same method as in the RouteDetailsController
 	public void initSingleRouteTable(Route rt) {
 		routeNumber.setCellValueFactory(data->data.getValue().routeNumberProperty());
 		transportType.setCellValueFactory(data->data.getValue().transportTypeProperty());
@@ -65,6 +66,7 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 		initRouteStopTable();
 	}
 	
+	//The same method as in the RouteDetailsController
 	public void initRouteStopTable() {
 		
 		stopID.setCellValueFactory(data->data.getValue().idProperty().asObject());
@@ -80,6 +82,7 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 		
 	}
 	
+	//Populates the table on the right for stop addition and changing. Calls all stops but removes the ones that are already in the route.
 	public void initActionRouteStopTable() {
 		
 		actionStopID.setCellValueFactory(data->data.getValue().idProperty().asObject());
@@ -97,6 +100,9 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 		actionStopsTable.setItems(actionRouteStopTableData);
 	}
 	
+	//On first call disables the other two buttons and calls initActionRouteStopTable
+	//On the second call takes the stop that user chose in the table on the right and adds it before the last stop in the route.
+	//After action is done, re-enables other buttons, clears the action table and refreshes the stopsTable and singleRouteTable.
 	public void addStop() {
 		if (!actionRouteStopTableData.isEmpty()) {
 			if(actionStopsTable.getSelectionModel().getSelectedItem()!=null) {
@@ -124,6 +130,9 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 		}
 	}
 	
+	//On first call disables the other two buttons and calls initActionRouteStopTable. Requires user to chose the stop he wants to replace first.
+	//On the second call takes the stop that user chose in the table on the right and sets it instead of the one he chose on the left.
+	//After action is done, re-enables other buttons, clears the action table and refreshes the stopsTable and singleRouteTable.
 	public void changeStop() {
 		
 			if (!actionRouteStopTableData.isEmpty()) {
@@ -154,6 +163,7 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 			}
 	}
 	
+	//Just removes the stop the user chose from the route. Nothing fancy
 	public void removeStop() {
 		if(stopsTable.getSelectionModel().getSelectedItem()!=null) {
 			if(stopsTable.getSelectionModel().getSelectedItem()==routeStopTableData.get(0) || stopsTable.getSelectionModel().getSelectedItem()==routeStopTableData.get(routeStopTableData.size()-1)) {
@@ -176,6 +186,7 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 		}
 	}
 	
+	//Closes current window
 	public void goToMain(ActionEvent event) {
 		Stage stage =(Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.close();
@@ -205,6 +216,7 @@ private RouteDAO routeDAO = new RouteDAOImpl();
 		return alert.showAndWait().get();
 	}
 	
+	//in case user wants to cancel the chosen action. Re-enables all the buttons and clears the actionStopsTable
 	public void cancelAction() {
 		addStopBtn.setDisable(false);
 		removeStopBtn.setDisable(false);

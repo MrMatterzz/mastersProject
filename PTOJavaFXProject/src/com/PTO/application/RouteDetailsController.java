@@ -67,6 +67,7 @@ public class RouteDetailsController implements Initializable{
 		intervalLbl.setText("10хв");
 	}
 	
+	//To be called from the MainController class. Uses the route selected in the main window to populate the info in this window and fill out the stopTable.
 	public void initSingleRouteTable(Route rt) {
 		routeNumber.setCellValueFactory(data->data.getValue().routeNumberProperty());
 		transportType.setCellValueFactory(data->data.getValue().transportTypeProperty());
@@ -80,6 +81,7 @@ public class RouteDetailsController implements Initializable{
 		initRouteStopTable();
 	}
 	
+	//Can be called only after the initSingleRouteTable was called. Populates the stopTable based on the route provided from the MainController
 	public void initRouteStopTable() {
 		
 		stopID.setCellValueFactory(data->data.getValue().idProperty().asObject());
@@ -95,6 +97,7 @@ public class RouteDetailsController implements Initializable{
 		
 	}
 	
+	//Basically the same method as in the MainController
 	public void loadPage() {
 		if(stopsTable.getSelectionModel().getSelectedItem()!=null) {
 			String page = stopsTable.getSelectionModel().getSelectedItem().toSearchQuerry();
@@ -102,6 +105,7 @@ public class RouteDetailsController implements Initializable{
 		} else noTableItemSelectedAlert();
 	}
 	
+	//To be called from MainController, loads up the route chosen in the main window upon initialization
 	public void loadPage(String page) {
 		engine.load(page);
 	}
@@ -178,7 +182,7 @@ public class RouteDetailsController implements Initializable{
 		reserveTransportCounter.setText(""+availableReserve);
 		intervalLbl.setText(newInterval+"хв");
 	}
-	
+	//Closes current window
 	public void goToMain(ActionEvent event) {
 		Stage stage =(Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.close();
@@ -192,6 +196,7 @@ public class RouteDetailsController implements Initializable{
 		alert.show();
 	}
 	
+	//Below are two methods that are called after the analysis to inform the user about the changes made.
 	public void transportRaised(int optimalNumber, int newInterval) {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Оновлення маршруту");
