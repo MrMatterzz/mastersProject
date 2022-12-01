@@ -39,9 +39,9 @@ public class Main extends Application {
 public void logout(Stage stage) {
 		
 		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Logout");
-		alert.setHeaderText("You are about to logout");
-		alert.setContentText("Are you sure you want to quit");
+		alert.setTitle("Вихід");
+		alert.setHeaderText("Ви виходите із системи");
+		alert.setContentText("Ви впевнені що зочете вийти?");
 		
 		if(alert.showAndWait().get() == ButtonType.OK) {
 			stage.close();

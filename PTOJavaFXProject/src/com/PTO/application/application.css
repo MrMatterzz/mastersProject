@@ -1,3 +1,6 @@
+Pane,TableView,Label{
+	-fx-font-family: Tahoma;
+}
 
 Pane{
 	-fx-border-width: 0.5px;

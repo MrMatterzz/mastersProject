@@ -190,9 +190,9 @@ public class RouteDetailsController implements Initializable{
 	
 	public void noTableItemSelectedAlert() {
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Route Selection Error");
-		alert.setHeaderText("No stop is chosen for display!");
-		alert.setContentText("Please chose a stop in the table and repeat the operation");
+		alert.setTitle("Помилка вибору зупинки");
+		alert.setHeaderText("Жодної зупинки не було обрано!");
+		alert.setContentText("Будь-ласка оберіть зупинку з таблиці і повторіть операцію");
 		alert.show();
 	}
 	

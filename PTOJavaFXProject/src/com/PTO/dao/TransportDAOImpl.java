@@ -11,6 +11,9 @@ import java.util.List;
 import com.PTO.ConnectionFactory;
 import com.PTO.domain.Transport;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class TransportDAOImpl implements TransportDAO {
 
 	@Override
@@ -45,15 +48,33 @@ public class TransportDAOImpl implements TransportDAO {
 	            }
 		return null;
 	}
+	
+	@Override
+	public List<String> getAllTransportTypes(){
+		try (Connection connection = ConnectionFactory.getConnection();
+	        	 Statement stmt = connection.createStatement();
+	             ResultSet rs = stmt.executeQuery("SELECT DISTINCT transportType FROM transport");
+	        		){	
+			List<String> transportTypes = new ArrayList<String>();
+			while(rs.next()){
+	        	 String transportType = rs.getString("transportType");
+	        	 transportTypes.add(transportType);
+                 }
+			return transportTypes;
+			} catch (SQLException ex) {
+	            ex.printStackTrace();
+	            }
+		return null;
+	}
 
 	@Override
-	public List<Transport> getAllTransport() {
+	public ObservableList<Transport> getAllTransport() {
 		try (Connection connection = ConnectionFactory.getConnection();
 	        	 Statement stmt = connection.createStatement();
 		         ResultSet rs = stmt.executeQuery("SELECT * FROM transport");
 	        		)
 	        	{ 
-	          	 List<Transport> vehicles = new ArrayList<Transport>();
+				 ObservableList<Transport> vehicles = FXCollections.observableArrayList();
 		         while(rs.next()){
 		        	 Transport transport = extractRouteFromResultSet(rs);
 		        	 vehicles.add(transport);
@@ -66,13 +87,13 @@ public class TransportDAOImpl implements TransportDAO {
 	}
 
 	@Override
-	public List<Transport> getTransportByType(String type) {
+	public ObservableList<Transport> getTransportByType(String type) {
 		try (Connection connection = ConnectionFactory.getConnection();
 	        	 Statement stmt = connection.createStatement();
 		         ResultSet rs = stmt.executeQuery("SELECT * FROM transport WHERE transportType='"+type+"'");
 	        		)
 	        	{ 
-	          	 List<Transport> vehicles = new ArrayList<Transport>();
+				 ObservableList<Transport> vehicles = FXCollections.observableArrayList();
 		         while(rs.next()){
 		        	 Transport transport = extractRouteFromResultSet(rs);
 		        	 vehicles.add(transport);
@@ -85,13 +106,13 @@ public class TransportDAOImpl implements TransportDAO {
 	}
 
 	@Override
-	public List<Transport> getTransportByRoute(String route) {
+	public ObservableList<Transport> getTransportByRoute(String route) {
 		try (Connection connection = ConnectionFactory.getConnection();
 	        	 Statement stmt = connection.createStatement();
 		         ResultSet rs = stmt.executeQuery("SELECT * FROM transport WHERE assignedRoute='"+route+"'");
 	        		)
 	        	{ 
-	          	 List<Transport> vehicles = new ArrayList<Transport>();
+				 ObservableList<Transport> vehicles = FXCollections.observableArrayList();
 		         while(rs.next()){
 		        	 Transport transport = extractRouteFromResultSet(rs);
 		        	 vehicles.add(transport);
@@ -104,13 +125,13 @@ public class TransportDAOImpl implements TransportDAO {
 	}
 
 	@Override
-	public List<Transport> getTransportByStatus(String status) {
+	public ObservableList<Transport> getTransportByStatus(String status) {
 		try (Connection connection = ConnectionFactory.getConnection();
 	        	 Statement stmt = connection.createStatement();
 		         ResultSet rs = stmt.executeQuery("SELECT * FROM transport WHERE transportStatus='"+status+"'");
 	        		)
 	        	{ 
-	          	 List<Transport> vehicles = new ArrayList<Transport>();
+				 ObservableList<Transport> vehicles = FXCollections.observableArrayList();
 		         while(rs.next()){
 		        	 Transport transport = extractRouteFromResultSet(rs);
 		        	 vehicles.add(transport);
@@ -123,13 +144,13 @@ public class TransportDAOImpl implements TransportDAO {
 	}
 
 	@Override
-	public List<Transport> getTransportByStatusAndType(String status, String type) {
+	public ObservableList<Transport> getTransportByStatusAndType(String status, String type) {
 		try (Connection connection = ConnectionFactory.getConnection();
 	        	 Statement stmt = connection.createStatement();
 		         ResultSet rs = stmt.executeQuery("SELECT * FROM transport WHERE transportStatus=+"+status+"' AND transportType='"+type+"'");
 	        		)
 	        	{ 
-	          	 List<Transport> vehicles = new ArrayList<Transport>();
+				 ObservableList<Transport> vehicles = FXCollections.observableArrayList();
 		         while(rs.next()){
 		        	 Transport transport = extractRouteFromResultSet(rs);
 		        	 vehicles.add(transport);

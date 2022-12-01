@@ -1,5 +1,10 @@
 package com.PTO.domain;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Transport {
 
 	private int transportID;
@@ -31,6 +36,11 @@ public class Transport {
 	public void setTransportID(int transportID) {
 		this.transportID = transportID;
 	}
+	
+	@SuppressWarnings("exports")
+	public IntegerProperty transportIDProperty() {
+		return new SimpleIntegerProperty(this.getTransportID());
+	}
 
 	public String getTransportType() {
 		return transportType;
@@ -38,6 +48,11 @@ public class Transport {
 
 	public void setTransportType(String transportType) {
 		this.transportType = transportType;
+	}
+	
+	@SuppressWarnings("exports")
+	public StringProperty transportTypeProperty() {
+		return new SimpleStringProperty(this.getTransportType());
 	}
 
 	public String getAssignedRoute() {
@@ -47,13 +62,22 @@ public class Transport {
 	public void setAssignedRoute(String assignedRoute) {
 		this.assignedRoute = assignedRoute;
 	}
+	
+	@SuppressWarnings("exports")
+	public StringProperty assignedRouteProperty() {
+		return new SimpleStringProperty(this.getAssignedRoute());
+	}
 
 	public String getTransportStatus() {
 		return transportStatus;
 	}
-
+	
 	public void setTransportStatus(String transportStatus) {
 		this.transportStatus = transportStatus;
 	}
 	
+	@SuppressWarnings("exports")
+	public StringProperty transportStatusProperty() {
+		return new SimpleStringProperty(this.getTransportStatus());
+	}
 }

@@ -89,13 +89,9 @@ public class MainController implements Initializable{
 		engine.load(homepage);
 		
 		//Populating Criteria and Search Field boxes
+		criteriaBox.setOnAction(this::updateSearchBox);
 		criteriaBox.getItems().addAll(criteriaVals);
 		criteriaBox.setValue(criteriaBox.getItems().get(0));
-		criteriaBox.setOnAction(this::updateSearchBox);
-		
-		List<String> routeNumbers = routeDAO.getUniqueRouteIDs();
-		rtSrchField.getItems().addAll(routeNumbers);
-		rtSrchField.setValue(rtSrchField.getItems().get(0));
 		
 		initTable();
 		activeRoutesCounter.setText(""+routeDAO.getRoutesByStatus("Активний").size());
@@ -266,8 +262,6 @@ public class MainController implements Initializable{
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		stage = new Stage();
 		
-		
-		
 		stage.getIcons().add(appIcon);
 		stage.setResizable(false);
 		stage.setTitle("Route Editing");
@@ -316,8 +310,6 @@ public class MainController implements Initializable{
 	//Takes event, String password and string callerBtnId as arguments. event is used to close the authWindow itself. 
 	//password is being verified to authenticate the action. and callerBtnId is used to determine what action has to be performed.
 	public void login(ActionEvent event, String password, String callerBtnId) throws IOException {
-//		Button button = (Button) event.getSource();
-//		System.out.println(button.getId());
 			stage =(Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.close();
 			if(password.equals(adminPass)) {
