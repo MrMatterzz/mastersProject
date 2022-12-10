@@ -264,7 +264,7 @@ public class MainController implements Initializable{
 		
 		stage.getIcons().add(appIcon);
 		stage.setResizable(false);
-		stage.setTitle("Route Editing");
+		stage.setTitle("Transport Details");
 		
 		stage.setScene(scene);
 		stage.showAndWait();

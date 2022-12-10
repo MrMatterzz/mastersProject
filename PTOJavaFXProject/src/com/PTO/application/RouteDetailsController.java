@@ -64,7 +64,7 @@ public class RouteDetailsController implements Initializable{
 		int x = (int) Math.floor(Math.random()*(10-2+1)+2);
 		activeTransportCounter.setText(""+x);
 		reserveTransportCounter.setText(""+(x+3));
-		intervalLbl.setText("10хв");
+		intervalLbl.setText("12хв");
 	}
 	
 	//To be called from the MainController class. Uses the route selected in the main window to populate the info in this window and fill out the stopTable.
@@ -112,20 +112,38 @@ public class RouteDetailsController implements Initializable{
 	
 	public void addTransport(){
 		
-		int transp = Integer.parseInt(activeTransportCounter.getText())+1;
-		activeTransportCounter.setText(""+transp);
-		
-		transp = Integer.parseInt(reserveTransportCounter.getText())-1;
-		reserveTransportCounter.setText(transp+"");
+		if(Integer.parseInt(reserveTransportCounter.getText())!=0) {
+			
+			int transp = Integer.parseInt(activeTransportCounter.getText())+1;
+			activeTransportCounter.setText(""+transp);
+			
+			transp = Integer.parseInt(reserveTransportCounter.getText())-1;
+			reserveTransportCounter.setText(transp+"");
+			
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Недостатьня кількість транспорту");
+			alert.setHeaderText("В резерві не залишилося доступного транспорту!");
+			alert.setContentText("Неможливо вислати більше транспорту на маршрут через відсутність доступних резервів!");
+			alert.show();
+		}
 	}
 	
 	public void removeTransport() {
 		
+		if(Integer.parseInt(activeTransportCounter.getText())!=0) {
 		int transp = Integer.parseInt(activeTransportCounter.getText())-1;
 		activeTransportCounter.setText(""+transp);
 		
 		transp = Integer.parseInt(reserveTransportCounter.getText())+1;
 		reserveTransportCounter.setText(transp+"");
+		} else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Недостатьня кількість транспорту");
+			alert.setHeaderText("На маршруті не залишилось активного транспорту!");
+			alert.setContentText("Неможливо відкликати транспорт з маршрут через відсутність активного транспорту на маршруті!");
+			alert.show();
+		}
 	}
 	
 	//Analysis of the current load and adjustment of the route
